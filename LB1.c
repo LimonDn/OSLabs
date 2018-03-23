@@ -33,13 +33,13 @@ int main()
               int rv = execvp (p[0], p);
               if (rv == -1) {
                  perror ("execvp");
-                 return EXIT_FALLURE;
+                 return EXIT_FAILURE;
                  }
               }
            pid = wait(NULL);
            if (pid == -1) {
               perror("wait");
-              return EXIT_FALLURE;
+              return EXIT_FAILURE;
               }
           for (i = 0; i < 16; ++i) {
               p[i] = NULL;
