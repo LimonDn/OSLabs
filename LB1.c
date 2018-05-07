@@ -6,27 +6,31 @@
 
 int main()
 {
-  int c,i,j;
+  int c;
+  int i = -1;
+  int j = 0;
   char argv [16][80];
   char *p [16];
 
-  for (i = 0; i < 16; ++i)
+  for (int  i = 0; i < 16; ++i)
      p[i] = NULL;
-
-  i = j = 0;
 
   do {
        c = getchar();
-
-       if (c == ' ' || c == '\n') {
+       if (c == ' ' && j == 0){
+          continue;
+       }
+       if ((c == ' ' || c == '\n') && (j != 0)) {
            p[i] = &argv[i][0];
            argv[i][j++] = '\0';
-           ++i;
            j = 0;
            }
-       else
+       else{
+        if (j == 0) {
+          ++i;
+        }
            argv[i][j++] = c;
-
+           }
        if (c == '\n') {
            pid_t pid = fork();
               if (!pid) {
@@ -41,12 +45,12 @@ int main()
               perror("wait");
               return EXIT_FAILURE;
               }
-          for (i = 0; i < 16; ++i) {
+          for (int i = 0; i < 16; ++i) {
               p[i] = NULL;
-              for (j = 0; j < 80; ++j)
-              argv[i][j] = 0;
+              for (int j = 0; j < 80; ++j)
+              argv[i][j] = '\0';
               }
-              i = j = 0;
+              i = -1;
          }
       }
   while (c != EOF);
